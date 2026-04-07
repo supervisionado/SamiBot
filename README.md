@@ -7,7 +7,7 @@
 ![Status](https://img.shields.io/badge/Status-Side_Project-FF69B4)
 
 ## 📖 What is SamiBot?
-A command-driven Telegram assistant that bridges financial APIs with a clean, predictable interface. SamiBot connects to **Finnhub** (stocks) and **iTick** (commodities) via WebSockets, ingests real-time price feeds, persists them to a database, and surfaces structured stats on demand. It’s a living lab for API orchestration, data pipelines, and disciplined Git workflows.
+A command-driven Telegram assistant that bridges financial APIs with a clean, predictable interface. SamiBot connects to **Finnhub** (stocks) and **iTick** (commodities) via WebSockets, ingests real-time price feeds, persists them to a database (ToDo), and surfaces structured stats on demand (ToDo). It’s a living lab for API orchestration, data pipelines, and disciplined Git workflows.
 
 ## 🐈‍⬛ Why “SamiBot”?
 Named after my black cat, Sami. He’s highly active, shares his territory with three females, runs on a strict diet of meat and naps, and has low tolerance for trucks or loud music.  
@@ -18,9 +18,9 @@ This bot inherits his personality: **hungry for data**, **efficient when the mar
 - 🔄 Iterative Git workflow with intentional, documented commits
 - 💬 Command-driven Telegram interface (`/price`, `/list`, `/commodities`, etc.) for quick, structured queries
 - 🔌 Real-time stock tracking via Finnhub (WebSocket streams)
+- 📦 Commodity data ingestion via Twelve Data (REST API)
 
 ### 🔮 On the Horizon
-- 📦 Commodity data ingestion via iTick
 - 🗄️ Persistent storage & statistical aggregations (moving averages, volatility, volume trends)
 - 📰 News ingestion & sentiment scoring for market context
 - 🪙 Cryptocurrency market support

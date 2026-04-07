@@ -16,6 +16,7 @@
   "dependencies": {
     "dotenv": "^17.4.1",
     "grammy": "^1.42.0",
+    "node-fetch": "^3.3.2",
     "ws": "^8.20.0"
   },
   "devDependencies": {
