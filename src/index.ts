@@ -1,12 +1,23 @@
-import { Bot } from "grammy";
-import dotenv from "dotenv";
+//
+//
+//  SamiBot (main module)
+//
+//      by SuperVisionado
+//
+//
 
-// Load environment variables
+import dotenv from "dotenv";
+import { Storage } from "./storage";
+import { MarketData } from "./market";
+import { TelegramBot } from "./bot";
+
 dotenv.config();
 
-const token = process.env.BOT_TOKEN;
-if (!token) {
-  throw new Error("BOT_TOKEN is not set in .env file");
+const telegram_token = process.env.BOT_TOKEN!;
+const finnhub_key = process.env.FINNHUB_API_KEY!;
+
+if (!telegram_token || !finnhub_key) {
+  throw new Error("Missing env vars");
 }
 
 const topNasdaq = [
@@ -14,33 +25,17 @@ const topNasdaq = [
   "ADBE","PEP","CSCO","ASML","QCOM","TXN","AMD","INTU","ISRG","AMAT"
 ];
 
-const commo = [
-  "XAUUSD", // Gold
-  "XAGUSD", // Silver
-  "CL",     // Oil
-  "HG",     // Copper
-  "XPDUSD"  // Palladium
-];
+// Init modules
+const storage = new Storage(topNasdaq);
+const market = new MarketData(finnhub_key, topNasdaq);
+const bot = new TelegramBot(telegram_token, storage);
 
-// Create the bot
-const bot = new Bot(token);
-
-// Basic commands
-bot.command("start", (ctx) => ctx.reply("Hello! I'm your bot 🤖"));
-bot.command("help", (ctx) => ctx.reply("Available commands: /start, /help"));
-
-// Echo any text message
-bot.on("message:text", (ctx) => {
-  ctx.reply(`You said: ${ctx.message.text}`);
+// Connect flow
+market.onTrade((event) => {
+  storage.ingest(event.symbol, event.price, event.size, event.timestamp);
 });
 
-// WebSocket placeholder (you can expand this later)
-console.log("WebSocket support can be added here (e.g., using ws or socket.io)");
-
-// Start the bot (long polling)
+// Start bot
 bot.start();
 
-console.log("🚀 Bot is running...");
-
-
-
+console.log("🚀 System running...");
