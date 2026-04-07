@@ -10,22 +10,35 @@ type TradeEvent = {
 };
 
 export class MarketData {
-  private socket: WebSocket;
+  private socket: WebSocket | null = null;
   private symbols: string[];
+  private apiKey: string;
+
   private onTradeCallback?: (event: TradeEvent) => void;
 
+  private reconnectAttempts = 0;
+  private maxReconnectDelay = 30000; // 30s
+
   constructor(apiKey: string, symbols: string[]) {
+    this.apiKey = apiKey;
     this.symbols = symbols;
-    this.socket = new WebSocket(`wss://ws.finnhub.io?token=${apiKey}`);
-    this.init();
+
+    this.connect();
   }
 
-  private init() {
+  private connect() {
+    console.log("🔌 Connecting to Finnhub...");
+
+    this.socket = new WebSocket(`wss://ws.finnhub.io?token=${this.apiKey}`);
+
     this.socket.on("open", () => {
       console.log("📡 Connected to Finnhub");
 
+      this.reconnectAttempts = 0;
+
+      // Resubscribe to symbols
       this.symbols.forEach(symbol => {
-        this.socket.send(JSON.stringify({
+        this.socket?.send(JSON.stringify({
           type: "subscribe",
           symbol
         }));
@@ -51,11 +64,30 @@ export class MarketData {
 
     this.socket.on("close", () => {
       console.log("❌ WebSocket closed");
+      this.scheduleReconnect();
     });
 
     this.socket.on("error", (err) => {
-      console.error("WS Error:", err.message);
+      console.error("⚠️ WS Error:", err.message);
+
+      // Important: terminate to trigger close → reconnect
+      this.socket?.terminate();
     });
+  }
+
+  private scheduleReconnect() {
+    this.reconnectAttempts++;
+
+    const delay = Math.min(
+      1000 * Math.pow(2, this.reconnectAttempts), // exponential
+      this.maxReconnectDelay
+    );
+
+    console.log(`🔁 Reconnecting in ${delay / 1000}s...`);
+
+    setTimeout(() => {
+      this.connect();
+    }, delay);
   }
 
   onTrade(cb: (event: TradeEvent) => void) {

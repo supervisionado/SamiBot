@@ -15,14 +15,13 @@ This bot inherits his personality: **hungry for data**, **efficient when the mar
 
 ## 🛠 Features
 ### ✅ Currently Live
-- Nothing yet to see...
+- 🔄 Iterative Git workflow with intentional, documented commits
+- 💬 Command-driven Telegram interface (`/price`, `/list`, `/commodities`, etc.) for quick, structured queries
+- 🔌 Real-time stock tracking via Finnhub (WebSocket streams)
 
 ### 🔮 On the Horizon
-- 🔌 Real-time stock tracking via Finnhub (WebSocket streams)
 - 📦 Commodity data ingestion via iTick
 - 🗄️ Persistent storage & statistical aggregations (moving averages, volatility, volume trends)
-- 💬 Command-driven Telegram interface (`/price`, `/stats`, `/commodities`, etc.) for quick, structured queries
-- 🔄 Iterative Git workflow with intentional, documented commits
 - 📰 News ingestion & sentiment scoring for market context
 - 🪙 Cryptocurrency market support
 - 🔔 User-defined price/volume alerts & threshold notifications
