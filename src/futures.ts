@@ -38,7 +38,7 @@ export class Futures {
       const res = await fetch(url);
       const data = await res.json();
 
-      console.log("Fetching prices for commodities (15min windows)");
+      console.log("Fetching prices for commodities (15min window)");
 
       /**
        * Response format:

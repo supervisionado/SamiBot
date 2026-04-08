@@ -1,4 +1,4 @@
-// Bot module
+// Telegram Bot module
 
 import { Bot } from "grammy";
 import { Storage } from "./storage";
@@ -14,7 +14,7 @@ export class TelegramBot {
   private setup() {
 
     this.bot.command("start", (ctx) =>
-      ctx.reply("📈 Stock bot running")
+      ctx.reply("📈 Sami bot is ready. Type /help for commands.")
     );
 
     this.bot.command("help", (ctx) =>
@@ -60,7 +60,7 @@ export class TelegramBot {
       }
 
       ctx.reply(
-        `${symbol}: $${data.price}\nTime: ${new Date(data.timestamp).toLocaleTimeString()}`
+        `${symbol}: $${data.price.toFixed(2)}\nTime: ${new Date(data.timestamp).toLocaleTimeString()}`
       );
     });
   }
@@ -73,7 +73,7 @@ export class TelegramBot {
     }
 
     ctx.reply(
-      `${label}: $${data.price}\nTime: ${new Date(data.timestamp).toLocaleTimeString()}`
+      `${label}: $${data.price.toFixed(2)}\nTime: ${new Date(data.timestamp).toLocaleTimeString()}`
     );
   }
 
