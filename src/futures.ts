@@ -1,4 +1,4 @@
-// twelvedata.ts
+// Futures module
 
 import fetch from "node-fetch";
 
