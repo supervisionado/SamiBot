@@ -2,11 +2,12 @@
 
 import { Bot } from "grammy";
 import { Storage } from "./storage";
+import { AlertManager } from "./alert";
 
 export class TelegramBot {
   private bot: Bot;
 
-  constructor(token: string, private storage: Storage) {
+  constructor(token: string, private storage: Storage, private alerts: AlertManager) {
     this.bot = new Bot(token);
     this.setup();
   }
@@ -21,10 +22,11 @@ export class TelegramBot {
       ctx.reply(
     `Commands:
     /price SYMBOL
+    /alert SYMBOL PRICE
     /list
     /gold
-    /silver
-    /oil`
+    /oil
+    /silver`
       )
     );
 
@@ -63,6 +65,22 @@ export class TelegramBot {
         `${symbol}: $${data.price.toFixed(2)}\nTime: ${new Date(data.timestamp).toLocaleTimeString()}`
       );
     });
+
+    this.bot.command("alert", (ctx) => {
+      const parts = ctx.message.text.split(" ");
+
+      const symbol = parts[1]?.toUpperCase();
+      const price = parseFloat(parts[2]);
+
+      if (!symbol || isNaN(price)) {
+        return ctx.reply("Usage: /alert AAPL 200");
+      }
+
+      this.alerts.addAlert(ctx.from.id, symbol, price);
+
+      ctx.reply(`✅ Alert set for ${symbol} at $${price}`);
+    });
+
   }
 
   private replyPrice(ctx: any, symbol: string, label: string) {
@@ -80,5 +98,9 @@ export class TelegramBot {
   start() {
     this.bot.start();
     console.log("🤖 Telegram bot running...");
+  }
+
+  sendMessage(userId: number, text: string) {
+    this.bot.api.sendMessage(userId, text);
   }
 }
