@@ -19,12 +19,12 @@ This bot inherits his personality: **hungry for data**, **efficient when the mar
 - 💬 Command-driven Telegram interface (`/price`, `/list`, `/commodities`, etc.) for quick, structured queries
 - 🔌 Real-time stock tracking via Finnhub (WebSocket streams)
 - 📦 Commodity data ingestion via Twelve Data (REST API)
+- 🔔 Basic user-defined (above) price alerts
 
 ### 🔮 On the Horizon
 - 🗄️ Persistent storage & statistical aggregations (moving averages, volatility, volume trends)
 - 📰 News ingestion & sentiment scoring for market context
 - 🪙 Cryptocurrency market support
-- 🔔 User-defined price/volume alerts & threshold notifications
 - 📊 Expanded analytics & lightweight portfolio tracking
 
 ## 🧠 Tech Stack
